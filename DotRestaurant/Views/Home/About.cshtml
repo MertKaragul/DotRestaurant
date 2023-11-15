@@ -1,0 +1,37 @@
+﻿@using DotRestaurant.Utils
+
+@{
+    ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/Default/_DefaultLayout.cshtml";
+
+    ViewData["RestaurantName"] = Constants.RESTURANT_NAME;
+    ViewData["RestaurantAboutDescription"] = Constants.RESTURANT_ABOUT_DESCRIPTION;
+    
+}
+<section class="about_section layout_padding">
+    <div class="container  ">
+
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="img-box">
+                    <img src="~/Default/images/about-img.png" alt="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail-box">
+                    <div class="heading_container">
+                        <h2>
+                            Bizler @ViewData["RestaurantName"]'ız
+                        </h2>
+                    </div>
+                    <p>
+                        @ViewData["RestaurantAboutDescription"]
+                    </p>
+                    <a href="">
+                        Read More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

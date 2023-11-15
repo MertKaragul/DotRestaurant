@@ -1,8 +1,12 @@
 ﻿@using DotRestaurant.Utils
 @{
-    ViewData["RestaurantSlogan"] = Constans.RESTURANT_SLOGAN;
-    ViewData["RestaurantName"] = Constans.RESTURANT_NAME;
+    ViewData["RestaurantSlogan"] = Constants.RESTURANT_SLOGAN;
+    ViewData["RestaurantName"] = Constants.RESTURANT_NAME;
 }
+
+<div class="bg-box">
+    <img src="~/Default/images/hero-bg.jpg" alt="">
+</div>
 
 <header class="header_section">
     <div class="container">
@@ -20,16 +24,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav  mx-auto ">
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/index">Ana sayfa <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="menu.html">Menu</a>
+                        <a class="nav-link" href="/menu">Menü</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
+                        <a class="nav-link" href="/about">Hakkımızda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="book.html">Book Table</a>
+                        <a class="nav-link" href="/book">Rezervasyon</a>
                     </li>
                 </ul>
                 <div class="user_option">
@@ -96,7 +100,7 @@
                         </button>
                     </form>
                     <a href="" class="order_online">
-                        Order Online
+                        Online sipariş
                     </a>
                 </div>
             </div>

@@ -1,5 +1,7 @@
-﻿@{
+﻿@using DotRestaurant.Utils
+@{
     Layout = null;
+    ViewData["RestaurantName"] = Constants.RESTURANT_NAME;
 }
 
 <!DOCTYPE html>
@@ -17,7 +19,7 @@
     <meta name="author" content="" />
     <link rel="shortcut icon" href="~/Default/images/favicon.png" type="">
 
-    <title> Feane </title>
+    <title> @ViewData["RestaurantName"] </title>
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="~/Default/css/bootstrap.css" />
@@ -36,9 +38,26 @@
 
 </head>
 
-<body>
+<body class="@((bool)ViewData["IndexPageOrNot"] ? "" : "sub_page")">
 
-    @RenderBody()
+
+    @if((bool)ViewData["IndexPageOrNot"])
+    {
+        <div class="hero_area">
+            @await Html.PartialAsync("~/Views/Shared/Default/_DefaultHeader.cshtml")
+            @RenderBody()
+        </div>
+    }
+    else
+    {
+        <div class="hero_area">
+            @await Html.PartialAsync("~/Views/Shared/Default/_DefaultHeader.cshtml")
+
+        </div>
+        @RenderBody()
+    }
+    
+    
 
     @await Html.PartialAsync("~/Views/Shared/Default/_DefaultFooter.cshtml")
     <!-- footer section -->

@@ -2,19 +2,12 @@
 
 @{
     Layout = "~/Views/Shared/Default/_DefaultLayout.cshtml";
-    ViewData["RestaurantSlogan"] = Constans.RESTURANT_SLOGAN;
-    ViewData["RestaurantName"] = Constans.RESTURANT_NAME;
+    ViewData["RestaurantSlogan"] = Constants.RESTURANT_SLOGAN;
+    ViewData["RestaurantName"] = Constants.RESTURANT_NAME;
 }
 
 
 <div class="hero_area">
-    <div class="bg-box">
-        <img src="~/Default/images/hero-bg.jpg" alt="">
-    </div>
-    <!-- header section strats -->
-    @await Html.PartialAsync("~/Views/Shared/Default/_DefaultHeader.cshtml")
-    <!-- end header section -->
-    <!-- slider section -->
     <section class="slider_section ">
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -30,7 +23,7 @@
                                         @ViewData["RestaurantSlogan"]
                                     </p>
                                     <div class="btn-box">
-                                        <a href="" class="btn1">
+                                        <a href="/menu" class="btn1">
                                             Sipariş ver
                                         </a>
                                     </div>
@@ -41,6 +34,5 @@
                 </div>
             </div>
         </div>
-
     </section>
 </div>
