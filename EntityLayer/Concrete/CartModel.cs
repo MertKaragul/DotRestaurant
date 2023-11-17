@@ -10,6 +10,7 @@ namespace EntityLayer.Concrete {
         [Key]
         public int Id { get; set; }
         public int USERID { get; set; }
-        public List<FoodModel> FoodList { get; set; }
+        //public List<string> FoodId { get; set; }
+        
     }
 }

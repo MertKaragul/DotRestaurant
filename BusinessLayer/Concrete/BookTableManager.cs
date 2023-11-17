@@ -17,6 +17,11 @@ namespace BusinessLayer.Concrete {
             _IBookTableDal = ıBookTableDal;
         }
 
+        public async Task<BookTableModel?> findByEmail(string email)
+        {
+            return await _IBookTableDal.findByEmail(email);
+        }
+
         public void TAdd(BookTableModel t)
         {
             _IBookTableDal.Insert(t);

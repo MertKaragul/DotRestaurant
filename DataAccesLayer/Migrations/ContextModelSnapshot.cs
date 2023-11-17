@@ -81,6 +81,9 @@ namespace DataAccesLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("DefaultCategory")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("categoryModels");
@@ -94,14 +97,15 @@ namespace DataAccesLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FoodID"));
 
-                    b.Property<int?>("CartModelId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("FoodDiscount")
-                        .HasColumnType("bit");
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("FoodDiscountPrice")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("FoodDiscountStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FoodImage")
                         .IsRequired()
@@ -121,12 +125,10 @@ namespace DataAccesLayer.Migrations
                     b.Property<bool>("FoodStatus")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("Stock")
                         .HasColumnType("int");
 
                     b.HasKey("FoodID");
-
-                    b.HasIndex("CartModelId");
 
                     b.ToTable("foodModels");
                 });
@@ -157,18 +159,6 @@ namespace DataAccesLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("userModels");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrete.FoodModel", b =>
-                {
-                    b.HasOne("EntityLayer.Concrete.CartModel", null)
-                        .WithMany("FoodList")
-                        .HasForeignKey("CartModelId");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrete.CartModel", b =>
-                {
-                    b.Navigation("FoodList");
                 });
 #pragma warning restore 612, 618
         }

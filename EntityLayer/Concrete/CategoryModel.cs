@@ -10,5 +10,6 @@ namespace EntityLayer.Concrete {
         [Key]
         public int Id { get; set; }
         public string CategoryName { get; set; }
+        public bool DefaultCategory { get; set; } = false;
     }
 }

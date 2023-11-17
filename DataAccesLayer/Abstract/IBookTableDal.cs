@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace DataAccesLayer.Abstract {
     public interface IBookTableDal : IGenericDal<BookTableModel> {
-        
+        Task<BookTableModel> findByEmail(string email);
     }
 }

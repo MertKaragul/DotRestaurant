@@ -9,14 +9,23 @@ namespace EntityLayer.Concrete {
     public class FoodModel {
         [Key]
         public int FoodID { get; set; }
+        [Required]
         public string FoodName { get; set; }
+        [Required]
         public string FoodIngredients { get; set; }
+        [Required]
         public bool FoodStatus { get; set; }
+        [Required]
         public string FoodImage { get; set; }
-        public bool FoodDiscount { get; set; }
+        [Required]
         public long FoodPrice { get; set; }
-        public int Quantity { get; set; } = 1;
+        public int Stock { get; set; } = 1;
+        [Required]
+        public bool FoodDiscountStatus { get; set; }
+        [Required]
         public long FoodDiscountPrice { get; set; }
+        [Required]
+        public string CategoryName { get; set; }
 
     }
 }

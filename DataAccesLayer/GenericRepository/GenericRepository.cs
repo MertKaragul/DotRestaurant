@@ -1,5 +1,6 @@
 ﻿using DataAccesLayer.Abstract;
 using DataAccesLayer.Concrete;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccesLayer.GenericRepository {
     public class GenericRepository<T> : IGenericDal<T> where T : class {
+
         public void Delete(T t)
         {
             using var c = new Context();

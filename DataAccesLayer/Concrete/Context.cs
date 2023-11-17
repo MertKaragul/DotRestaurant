@@ -1,5 +1,6 @@
 ﻿using EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace DataAccesLayer.Concrete
 {
     public class Context : DbContext
     {
+       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -17,9 +19,11 @@ namespace DataAccesLayer.Concrete
         }
 
         public DbSet<BookTableModel> bookTableModels { get; set; }
-        public DbSet<CartModel> cartModels { get; set; }
         public DbSet<FoodModel> foodModels { get; set; }
         public DbSet<UserModel> userModels { get; set; }
         public DbSet<CategoryModel> categoryModels { get; set; }
+
+
+        public DbSet<CartModel> cartModels { get; set; }
     }
 }
