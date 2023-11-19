@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccesLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class mg1 : Migration
+    public partial class mig1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.CreateTable(
                 name: "bookTableModels",
                 columns: table => new
@@ -27,6 +28,7 @@ namespace DataAccesLayer.Migrations
                 {
                     table.PrimaryKey("PK_bookTableModels", x => x.BookTableID);
                 });
+
 
             migrationBuilder.CreateTable(
                 name: "cartModels",
@@ -47,27 +49,12 @@ namespace DataAccesLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DefaultCategory = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categoryModels", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "userModels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_userModels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,27 +67,35 @@ namespace DataAccesLayer.Migrations
                     FoodIngredients = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FoodStatus = table.Column<bool>(type: "bit", nullable: false),
                     FoodImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FoodDiscount = table.Column<bool>(type: "bit", nullable: false),
                     FoodPrice = table.Column<long>(type: "bigint", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
+                    FoodDiscountStatus = table.Column<bool>(type: "bit", nullable: false),
                     FoodDiscountPrice = table.Column<long>(type: "bigint", nullable: false),
-                    CartModelId = table.Column<int>(type: "int", nullable: true)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_foodModels", x => x.FoodID);
-                    table.ForeignKey(
-                        name: "FK_foodModels_cartModels_CartModelId",
-                        column: x => x.CartModelId,
-                        principalTable: "cartModels",
-                        principalColumn: "Id");
-                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_foodModels_CartModelId",
-                table: "foodModels",
-                column: "CartModelId");
+                    migrationBuilder.CreateTable(
+                        name: "userModels",
+                        columns: table => new
+                        {
+                            Id = table.Column<int>(type: "int", nullable: false)
+                                .Annotation("SqlServer:Identity", "1, 1"),
+                            UUID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                            Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                            Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                            Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                            Role = table.Column<int>(type: "int", nullable: false)
+                        },
+                        constraints: table =>
+                        {
+                            table.PrimaryKey("PK_userModels", x => x.Id);
+                        });
+                });
         }
+                
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -109,6 +104,9 @@ namespace DataAccesLayer.Migrations
                 name: "bookTableModels");
 
             migrationBuilder.DropTable(
+                name: "cartModels");
+    
+            migrationBuilder.DropTable(
                 name: "categoryModels");
 
             migrationBuilder.DropTable(
@@ -116,9 +114,6 @@ namespace DataAccesLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "userModels");
-
-            migrationBuilder.DropTable(
-                name: "cartModels");
         }
     }
 }

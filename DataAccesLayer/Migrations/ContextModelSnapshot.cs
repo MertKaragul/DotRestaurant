@@ -156,6 +156,10 @@ namespace DataAccesLayer.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("UUID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("userModels");

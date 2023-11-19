@@ -17,6 +17,11 @@ namespace BusinessLayer.Concrete {
             _IUserDal = ıUserDal;
         }
 
+        public async Task<UserModel?> findByEmail(string Email)
+        {
+            return await _IUserDal.findByEmail(Email);
+        }
+
         public void TAdd(UserModel t)
         {
             _IUserDal.Insert(t);

@@ -11,12 +11,6 @@ using System.Text.Json;
 namespace DotRestaurant.Controllers {
     public class HomeController : Controller {
 
-        readonly ILogger<HomeController> _logger;
-        
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         [Route("~/")]
         [HttpGet]
@@ -32,10 +26,7 @@ namespace DotRestaurant.Controllers {
         {
             var foodManager = new FoodManager(new EFFood());
             var categoryManager = new CategoryManager(new EFCategory());
-
             var values = new MenuViewModel(categoryManager.TGetAll(), foodManager.TGetAll());
-
-            ViewData["IndexPageOrNot"] = false;
             return View(values) ;
         }
 
@@ -43,7 +34,6 @@ namespace DotRestaurant.Controllers {
         [HttpGet]
         public IActionResult About()
         {
-            ViewData["IndexPageOrNot"] = false;
             return View();
         }
 
@@ -51,7 +41,6 @@ namespace DotRestaurant.Controllers {
         [HttpGet]
         public IActionResult Book()
         {
-            ViewData["IndexPageOrNot"] = false;
             return View();
         }
 
@@ -59,7 +48,7 @@ namespace DotRestaurant.Controllers {
         [HttpPost]
         public IActionResult Book(BookTableModel bookTableModel)
         {
-            var bookManager = new BookTableManager(new EFBookTable()) ;
+            var bookManager = new BookTableManager(new EFBookTable());
             try
             {
                 if(bookManager.findByEmail(bookTableModel.Email) != null)
@@ -71,13 +60,10 @@ namespace DotRestaurant.Controllers {
                     new BookTableManager(new EFBookTable()).TAdd(bookTableModel);
                     ViewData["bookTableStatus"] = "Rezervasyon baþarýyla yapýldý";
                 }
-
-                
             }
             catch(Exception ex)
             {
-                ViewData["bookTableStatus"] = "Rezervasyon yapýlýrken bir hata meydana geldi";
-
+                ViewData["bookTableStatus"] = "Rezervasyon yapýlýrken bir hata meydana geldi, " + ex.Message;
             }
 
             ViewData["IndexPageOrNot"] = false;

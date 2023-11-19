@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract {
     public interface IUserService : IGenericService<UserModel> {
+        public Task<UserModel?> findByEmail(string Email);
     }
 }

@@ -1,0 +1,57 @@
+﻿@using EntityLayer.Concrete
+@model UserModel
+
+@{
+    Layout = "~/Views/Shared/Default/_DefaultLayout.cshtml";
+}
+
+
+<div class="user-form">
+    <h1>Merhaba ben kullanıcı sayfasi</h1>
+
+
+    @if(TempData["RegisterStatus"] != null)
+    {
+        @Html.Raw(TempData["RegisterStatus"]);
+    }
+
+
+    @using(Html.BeginForm("Register", "User", FormMethod.Post))
+    {
+        @Html.Label("Kullanıcı Adı")
+        ;
+        @Html.TextBoxFor(x => Model.Name, new {@class="form-text" } )
+        <br />
+        @Html.Label("Email")
+        ;
+        @Html.TextBoxFor(x => Model.Email, new { @class = "form-text" })
+        <br />
+        @Html.Label("Şifre")
+        ;
+        @Html.TextBoxFor(x => Model.Password, new { @class = "form-text" })
+        <br />
+        <input type="submit" value="KayıtOl" />
+    }
+</div>
+
+
+
+
+
+
+<style>
+    .user-form {
+        width : 100%;
+        height: 70vh;
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        justify-content:center;
+    }
+    .form-text{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+        border-color: lightgray;
+    }
+</style>

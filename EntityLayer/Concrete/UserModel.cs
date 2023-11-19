@@ -10,6 +10,8 @@ namespace EntityLayer.Concrete {
         [Key]
         public int Id { get; set; }
         [Required]
+        public string UUID { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccesLayer.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231117073707_mig3")]
-    partial class mig3
+    [Migration("20231119122326_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,9 +100,6 @@ namespace DataAccesLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FoodID"));
 
-                    b.Property<int?>("CartModelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -136,8 +133,6 @@ namespace DataAccesLayer.Migrations
 
                     b.HasKey("FoodID");
 
-                    b.HasIndex("CartModelId");
-
                     b.ToTable("foodModels");
                 });
 
@@ -164,21 +159,13 @@ namespace DataAccesLayer.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("UUID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("userModels");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrete.FoodModel", b =>
-                {
-                    b.HasOne("EntityLayer.Concrete.CartModel", null)
-                        .WithMany("FoodList")
-                        .HasForeignKey("CartModelId");
-                });
-
-            modelBuilder.Entity("EntityLayer.Concrete.CartModel", b =>
-                {
-                    b.Navigation("FoodList");
                 });
 #pragma warning restore 612, 618
         }
