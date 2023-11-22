@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DotRestaurant")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c45c21d9e6328d6bd5cdf7b864fcba94f66542a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("DotRestaurant")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DotRestaurant")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

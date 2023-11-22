@@ -17,11 +17,11 @@ namespace DataAccesLayer.Concrete
             optionsBuilder.UseSqlServer("server=TEXAST5\\SQLEXPRESS;database=DotRestaurant;integrated security=true;TrustServerCertificate=True;");
         }
 
-        public DbSet<BookTableModel> bookTableModels { get; set; }
-        public DbSet<FoodModel> foodModels { get; set; }
-        public DbSet<CategoryModel> categoryModels { get; set; }
-        public DbSet<UserModel> userModels { get; set; }
-        public DbSet<CartModel> cartModels { get; set; }
+        public DbSet<BookTableModel> BookTableModels { get; set; }
+        public DbSet<FoodModel> FoodModels { get; set; }
+        public DbSet<CategoryModel> CategoryModels { get; set; }
+        public DbSet<UserModel> UserModels { get; set; }
+        public DbSet<CartModel> CartModels { get; set; }
 
     }
 }

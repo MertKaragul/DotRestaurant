@@ -2,6 +2,7 @@
 using DataAccesLayer.Abstract;
 using DataAccesLayer.EntityFramework;
 using DotRestaurant.Service.Concrete;
+using DotRestaurant.Utils;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,13 +10,15 @@ using Microsoft.Extensions.Logging;
 namespace DotRestaurant.Controllers {
     public class UserController : Controller {
 
+        private CookieService cookieService = new CookieService();
+        private JsonService<UserModel> jsonService = new JsonService<UserModel>();
 
         [Route("~/User")]
         [HttpGet]
         public IActionResult Index() {
-
-
-            return View();
+            var checkUser = cookieService.getCookie(HttpContext, Constants.UserCookieName);
+            var user = jsonService.fromJson(checkUser);
+            return View(user);
         }
 
 
@@ -62,11 +65,8 @@ namespace DotRestaurant.Controllers {
 
         private void setUserCookie(UserModel userModel)
         {
-            var cookieService = new CookieService();
-            cookieService.createCookie(HttpContext, "Username", userModel.Name);
-            cookieService.createCookie(HttpContext, "Email", userModel.Email);
-            cookieService.createCookie(HttpContext, "Password", userModel.Password);
-            cookieService.createCookie(HttpContext, "UUID", userModel.UUID);
+            var json = jsonService.toJson(userModel);
+            cookieService.createCookie(HttpContext, Constants.UserCookieName, json);
         }
     }
 }

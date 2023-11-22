@@ -16,6 +16,11 @@ namespace BusinessLayer.Concrete {
             _ICartDal = ıCartDal;
         }
 
+        public async Task<CartModel?> findByUserUUID(string uuid)
+        {
+            return await _ICartDal.findByUserUUID(uuid);
+        }
+
         public void TAdd(CartModel t)
         {
             _ICartDal.Insert(t);
@@ -37,5 +42,7 @@ namespace BusinessLayer.Concrete {
         {
             _ICartDal.Update(t);
         }
+
+        
     }
 }

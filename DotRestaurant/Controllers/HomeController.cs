@@ -2,6 +2,8 @@ using BusinessLayer.Concrete;
 using DataAccesLayer.Abstract;
 using DataAccesLayer.EntityFramework;
 using DotRestaurant.Models;
+using DotRestaurant.Service.Concrete;
+using DotRestaurant.Utils;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,7 +12,7 @@ using System.Text.Json;
 
 namespace DotRestaurant.Controllers {
     public class HomeController : Controller {
-
+        
 
         [Route("~/")]
         [HttpGet]
@@ -24,10 +26,11 @@ namespace DotRestaurant.Controllers {
         [HttpGet]
         public IActionResult Menu()
         {
+            // Food and category manager
             var foodManager = new FoodManager(new EFFood());
             var categoryManager = new CategoryManager(new EFCategory());
             var values = new MenuViewModel(categoryManager.TGetAll(), foodManager.TGetAll());
-            return View(values) ;
+            return View(values);
         }
 
         [Route("~/About")]

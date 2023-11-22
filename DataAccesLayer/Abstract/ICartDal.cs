@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 
 namespace DataAccesLayer.Abstract {
     public interface ICartDal : IGenericDal<CartModel>{
+        Task<CartModel?> findByUserUUID(string uuid);
     }
 }

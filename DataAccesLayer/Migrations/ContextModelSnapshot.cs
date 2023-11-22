@@ -50,7 +50,7 @@ namespace DataAccesLayer.Migrations
 
                     b.HasKey("BookTableID");
 
-                    b.ToTable("bookTableModels");
+                    b.ToTable("BookTableModels");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.CartModel", b =>
@@ -61,12 +61,17 @@ namespace DataAccesLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("USERID")
-                        .HasColumnType("int");
+                    b.Property<string>("FoodList")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserUUID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("cartModels");
+                    b.ToTable("CartModels");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.CategoryModel", b =>
@@ -86,7 +91,7 @@ namespace DataAccesLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categoryModels");
+                    b.ToTable("CategoryModels");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.FoodModel", b =>
@@ -130,7 +135,7 @@ namespace DataAccesLayer.Migrations
 
                     b.HasKey("FoodID");
 
-                    b.ToTable("foodModels");
+                    b.ToTable("FoodModels");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.UserModel", b =>
@@ -162,7 +167,7 @@ namespace DataAccesLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("userModels");
+                    b.ToTable("UserModels");
                 });
 #pragma warning restore 612, 618
         }

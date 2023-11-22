@@ -7,31 +7,38 @@
 
 
 <div class="user-form">
-    <h1>Merhaba ben kullanıcı sayfasi</h1>
+    @*<h1>Merhaba ben kullanıcı sayfasi</h1>*@
 
-
-    @if(TempData["RegisterStatus"] != null)
+    @if(Model != null)
     {
-        @Html.Raw(TempData["RegisterStatus"]);
+        @Html.Raw("Merhaba," + Model.Name);
+    }
+    else
+    {
+        @if(TempData["RegisterStatus"] != null)
+        {
+            @Html.Raw(TempData["RegisterStatus"])
+        }
+
+        @using(Html.BeginForm("Register", "User", FormMethod.Post))
+        {
+            @Html.Label("Kullanıcı Adı")
+            
+            @Html.TextBoxFor(x => Model.Name, new { @class = "form-text" })
+            <br />
+            @Html.Label("Email")
+            
+            @Html.TextBoxFor(x => Model.Email, new { @class = "form-text" })
+            <br />
+            @Html.Label("Şifre")
+            
+            @Html.TextBoxFor(x => Model.Password, new { @class = "form-text" })
+            <br />
+            <input type="submit" value="KayıtOl" />
+        }
     }
 
-
-    @using(Html.BeginForm("Register", "User", FormMethod.Post))
-    {
-        @Html.Label("Kullanıcı Adı")
-        ;
-        @Html.TextBoxFor(x => Model.Name, new {@class="form-text" } )
-        <br />
-        @Html.Label("Email")
-        ;
-        @Html.TextBoxFor(x => Model.Email, new { @class = "form-text" })
-        <br />
-        @Html.Label("Şifre")
-        ;
-        @Html.TextBoxFor(x => Model.Password, new { @class = "form-text" })
-        <br />
-        <input type="submit" value="KayıtOl" />
-    }
+    
 </div>
 
 

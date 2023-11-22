@@ -8,5 +8,6 @@ using System.Threading.Tasks;
 namespace BusinessLayer.Abstract {
 
     public interface ICartService : IGenericService<CartModel>{
+        Task<CartModel?> findByUserUUID(string uuid);
     }
 }

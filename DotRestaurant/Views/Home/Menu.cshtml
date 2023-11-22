@@ -51,9 +51,9 @@
                                         <h6>
                                             $@item.FoodPrice
                                         </h6>
-                                        <a href="/addProductToCart/foodID=@item.FoodID">
-                                            @await Html.PartialAsync("~/Views/Shared/ViewUtils/CartIcon.cshtml")
-                                        </a>
+
+                                        <a class="order-button" data-food-id="@item.FoodID" >@await Html.PartialAsync("~/Views/Shared/ViewUtils/CartIcon.cshtml")</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -64,3 +64,21 @@
         </div>
     </div>
 </section>
+
+
+
+<script defer>
+    var getOrderButton = document.querySelectorAll(".order-button")
+    for (i = 0; i < getOrderButton.length; i++) {
+        getOrderButton[i].addEventListener('click', function (e) {
+            var foodID = e.target.dataset.foodId;
+            if (foodID == undefined || foodID == null) return;
+            $.post( 
+                "/addToCart?foodId="+foodID,
+                function (data, status) {
+                    alert(data.message)
+                }
+            )
+        })
+    }
+</script>
