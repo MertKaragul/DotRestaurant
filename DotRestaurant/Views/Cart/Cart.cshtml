@@ -1,0 +1,69 @@
+﻿@using EntityLayer.Concrete
+@model List<FoodModel>
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/Default/_DefaultLayout.cshtml";
+
+    long cartTotal = 0;
+}
+
+<section class="food_section layout_padding">
+<div class="container">
+@if(Model == null || Model.Count == 0)
+{
+    <div style="width:100%; height:50vh;">
+        @Html.Raw("Sepetiniz boş")
+    </div>
+}
+else
+{
+    <table style="width:100%;  text-align:center;">
+        <tr>
+            <th>Yemek fotoğrafı</th>
+            <th>Yemek ismi</th>
+            <th>Yemek fiyatı</th>
+            <th>Yemek adeti</th>
+        </tr>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td width="350px"><img width="150px" src="@item.FoodImage" /></td>
+                <td>@item.FoodName</td>
+                <td>$@item.FoodPrice</td>
+                <td>@item.Stock</td>
+                <td><button onclick="deleteFood(@item.FoodID)" class="btn_box">İptal et</button></td>
+            </tr>
+            cartTotal += item.FoodPrice;
+        }
+    </table>
+
+    <div style="width:100%; height:5vh;">
+        Sepet toplamı: $@cartTotal
+    </div>
+
+    
+}
+</div>
+</section>
+
+
+@if(Model != null || Model.Count == 1)
+{
+    <style>
+        table{
+            height:50vh;
+        }
+    </style>
+}
+
+<script defer>
+    function deleteFood(id){
+        if (id == null || id == undefined) return;
+
+        $.post("/removeCart?foodID=" + id, function (data, status) {
+            alert(data.message) 
+            location.reload()
+        })
+    }
+</script>

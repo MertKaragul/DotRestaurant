@@ -17,7 +17,10 @@ namespace DotRestaurant.Controllers {
             {
                 if(FoodID == null) return BadRequest(new { message = "Ürün eklerken bir hata meydana geldi" });
                 var foodManager = new FoodManager(new EFFood());
-                if(foodManager.TgetById(int.Parse(FoodID)) == null) return BadRequest(new { message = "Ürün eklerken bir hata meydana geldi" });
+
+                var findFood = await foodManager.TgetById(int.Parse(FoodID));
+                if(findFood == null) return BadRequest(new { message = "Ürün bulunamadı" });
+                if(!findFood.FoodStatus) return BadRequest(new { message = "Ürün bulunamadı" });
 
 
                 var cookieService = new CookieService();
@@ -60,6 +63,72 @@ namespace DotRestaurant.Controllers {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 return StatusCode(500, new { message = "Sunucu hatası" });
             }
+        }
+
+        [Route("~/removeCart")]
+        [HttpPost]
+        public async Task<IActionResult> RemoveCart(int? foodID)
+        {
+            try {
+
+                if(foodID != null)
+                {
+                    var foodManager = new FoodManager(new EFFood());
+                    var findFood = await foodManager.TgetById(foodID.Value);
+                    if(findFood == null) return BadRequest(new { message = "Ürün bulunamadı" });
+                    if(!findFood.FoodStatus) return BadRequest(new { message = "Ürün bulunamadı" });
+
+                    var cookieService = new CookieService();
+                    var getUserCookie = cookieService.getCookie(HttpContext, Constants.UserCookieName);
+                    var jsonService = new JsonService<UserModel>();
+                    var parseJsonCookie = jsonService.fromJson(getUserCookie);
+                    if(parseJsonCookie == null)
+                    {
+                        return Unauthorized(new { message = "Kayıt olmadan ürün silinemez" });
+                    }
+
+                    var cartManager = new CartManager(new EFCart());
+                    var getUserCart = await cartManager.findByUserUUID(parseJsonCookie.UUID);
+                    if(getUserCart == null) return Ok(new { message = "Sepet boş" });
+
+                    var findFoodInCart = getUserCart.FoodList.First(x => x == foodID.ToString());
+                    getUserCart.FoodList.Remove(findFoodInCart);
+                    cartManager.TUpdate(getUserCart);
+                    return Ok(new { message = "Ürün başarıyla silindi" });
+                    }
+                else
+                {
+                  return BadRequest(new { message = "Ürün Bulunamadı" });
+                } 
+            }
+            catch(Exception ex) {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return StatusCode(500, new { message = "Sunucu hatası" });
+            }
+        }
+
+        [Route("~/cart")]
+        [HttpGet]
+        public async Task<IActionResult> Cart()
+        {
+            var cookieService = new CookieService();
+            var getUserCookie = cookieService.getCookie(HttpContext, Constants.UserCookieName);
+
+            if (getUserCookie == null) ViewData["userNotFound"] = "Lütfen hesabınıza giriş yapın";
+            var jsonService = new JsonService<UserModel>();
+            var parseJsonCookie = jsonService.fromJson(getUserCookie);
+            if(parseJsonCookie == null) ViewData["userNotFound"] = "Lütfen hesabınıza giriş yapın";
+
+
+            ArrayList userCartList = new ArrayList();
+            var cartManager = new CartManager(new EFCart());
+            var userCart = await cartManager.findByUserUUID(parseJsonCookie.UUID);
+            var foodManager = new FoodManager(new EFFood());
+            foreach (var item in userCart.FoodList)
+            {
+                userCartList.Add(await foodManager.TgetById(int.Parse(item)));
+            }
+            return View(userCartList.Cast<FoodModel>().ToList());
         }
     }
 }
