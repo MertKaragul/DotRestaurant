@@ -17,7 +17,7 @@ namespace DotRestaurant.Service.Concrete
             context.Response.Cookies.Append(cookieName, cookieValue, getCookieOptions());
         }
 
-        public void deleteContext(HttpContext context, string cookieName, string cookieValue)
+        public void deleteCookie(HttpContext context, string cookieName)
         {
             context.Response.Cookies.Delete(cookieName);
         }
@@ -25,10 +25,7 @@ namespace DotRestaurant.Service.Concrete
         public String? getCookie(HttpContext context,string cookieName)
         {
             var getCookieValue = context.Request.Cookies[cookieName];
-
             if(getCookieValue == null) return null;
-
-
             return getCookieValue;
         }
 

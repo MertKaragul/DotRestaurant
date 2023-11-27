@@ -23,7 +23,6 @@ else
             <th>Yemek fotoğrafı</th>
             <th>Yemek ismi</th>
             <th>Yemek fiyatı</th>
-            <th>Yemek adeti</th>
         </tr>
         @foreach(var item in Model)
         {
@@ -31,7 +30,6 @@ else
                 <td width="350px"><img width="150px" src="@item.FoodImage" /></td>
                 <td>@item.FoodName</td>
                 <td>$@item.FoodPrice</td>
-                <td>@item.Stock</td>
                 <td><button onclick="deleteFood(@item.FoodID)" class="btn_box">İptal et</button></td>
             </tr>
             cartTotal += item.FoodPrice;
@@ -48,22 +46,33 @@ else
 </section>
 
 
-@if(Model != null || Model.Count == 1)
+@if(Model != null)
 {
-    <style>
-        table{
-            height:50vh;
-        }
-    </style>
+    if(Model.Count == 1)
+    {
+        <style>
+            table {
+                height: 50vh;
+            }
+        </style>
+    }
 }
 
 <script defer>
     function deleteFood(id){
         if (id == null || id == undefined) return;
 
-        $.post("/removeCart?foodID=" + id, function (data, status) {
-            alert(data.message) 
-            location.reload()
+        $.ajax({
+            type: "POST",
+            url: "/removeCart?foodID=" + id,
+            success: function (data) {
+                alert(data.message)
+                location.reload()
+            },
+            error: function (err) {
+                alert(err.message)
+
+            }
         })
     }
 </script>

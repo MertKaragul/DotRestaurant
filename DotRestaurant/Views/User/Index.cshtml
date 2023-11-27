@@ -12,34 +12,161 @@
     @if(Model != null)
     {
         @Html.Raw("Merhaba," + Model.Name);
+
+        <button onClick="logOut()">Çıkış yap</button>
+        <script defer>
+            function logOut(){
+                $.ajax({
+                  type : "POST",
+                  url : "/User/Logout",
+                    success: function (data) {
+                        location.reload()
+                    },
+                    error: function () {
+
+                    }
+                
+                })
+            }
+        </script>
     }
     else
     {
-        @if(TempData["RegisterStatus"] != null)
-        {
-            @Html.Raw(TempData["RegisterStatus"])
-        }
+
+        <div class="user-form">
+
+            @*
 
         @using(Html.BeginForm("Register", "User", FormMethod.Post))
         {
-            @Html.Label("Kullanıcı Adı")
-            
-            @Html.TextBoxFor(x => Model.Name, new { @class = "form-text" })
-            <br />
-            @Html.Label("Email")
-            
-            @Html.TextBoxFor(x => Model.Email, new { @class = "form-text" })
-            <br />
-            @Html.Label("Şifre")
-            
-            @Html.TextBoxFor(x => Model.Password, new { @class = "form-text" })
-            <br />
-            <input type="submit" value="KayıtOl" />
+        @Html.Label("Kullanıcı Adı")
+
+        @Html.TextBoxFor(x => Model.Name, new { @class = "form-text" })
+        <br />
+        @Html.Label("Email")
+
+        @Html.TextBoxFor(x => Model.Email, new { @class = "form-text" })
+        <br />
+        @Html.Label("Şifre")
+
+        @Html.TextBoxFor(x => Model.Password, new { @class = "form-text" })
+        <br />
+        <input type="submit" value="KayıtOl" />
         }
+
+
+            *@
+            
+
+            <div class="user-form-area">
+                <div class="user-register">
+                    <div>
+                        @Html.Label("Kayıt ol")
+                    </div>
+
+                    @Html.Label("Kullanıcı Adı")
+
+                    @Html.TextBoxFor(x => Model.Name, new { @class = "form-text", @id = "register-name" })
+                    <br />
+                    @Html.Label("Email")
+
+                    @Html.TextBoxFor(x => Model.Email, new { @class = "form-text", @id = "register-email" })
+                    <br />
+                    @Html.Label("Şifre")
+
+                    @Html.TextBoxFor(x => Model.Password, new { @class = "form-text", @id = "register-password" })
+
+                    <button onclick="register()">Kayıt ol</button>
+                </div>
+                
+                <div class="user-login">
+                    <div>
+                        @Html.Label("Giriş yap")
+                    </div>
+
+                    @Html.Label("Email")
+                    <br />
+                    @Html.TextBoxFor(x => Model.Email, new { @class = "form-text", @id="login-email" })
+                    <br />
+                    @Html.Label("Şifre")
+                    @Html.TextBoxFor(x => Model.Password, new { @class = "form-text", @id = "login-password" })
+
+                    <button onclick="logIn()">Giriş yap</button>
+                </div>
+            </div>
+        </div>   
+    }
+</div>
+
+
+<script defer>
+     var registerName = document.getElementById("register-name")
+     var registerEmail = document.getElementById("register-email")
+     var registerPassword = document.getElementById("register-password")
+
+
+
+     var loginEmail = document.getElementById("login-email")
+     var loginPassword = document.getElementById("login-password")
+
+    function logIn() {
+        if (loginEmail.value == null || loginEmail == undefined) {
+            alert("Geçerli bir E-mail hesabı giriniz")
+            return;
+        }
+        if (loginPassword.value == null || loginPassword == undefined) {
+            alert("Geçerli bir şifre giriniz")
+            return
+        }
+
+        $.ajax({
+            type : "POST",
+            url: "/User/Login",
+            data: {
+              Email : loginEmail.value,
+              Password : loginPassword.value
+            },
+            success: function (data) {
+                alert(data.message)
+                location.reload()
+            },
+            error: function (err) {
+                alert(err.message)
+            }
+        })
     }
 
-    
-</div>
+    function register(){
+        if (registerName.value == null || registerName.value == undefined) {
+            alert("Geçerli bir isim giriniz")
+            return
+        }
+        if (registerEmail.value == null || registerEmail.value == undefined) {
+            alert("Geçerli bir E-mail giriniz")
+            return
+        }
+        if (registerPassword.value == null || registerPassword.value == undefined) {
+            alert("Geçerli bir şifre giriniz")
+            return
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/User/Register",
+            data: {
+                Name : registerName.value,
+                Email: registerEmail.value,
+                Password: registerPassword.value
+            },
+            success: function (data) {
+                alert(data.message)
+            },
+            error: function (err) {
+                alert(err.message)
+            }
+        })
+    }
+</script>
 
 
 
@@ -55,6 +182,15 @@
         align-items:center;
         justify-content:center;
     }
+
+    .user-form-area{
+        width:100%;
+        display:flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+
     .form-text{
         border: 1px solid black;
         border-radius: 10px;

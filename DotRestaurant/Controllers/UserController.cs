@@ -16,9 +16,17 @@ namespace DotRestaurant.Controllers {
         [Route("~/User")]
         [HttpGet]
         public IActionResult Index() {
-            var checkUser = cookieService.getCookie(HttpContext, Constants.UserCookieName);
-            var user = jsonService.fromJson(checkUser);
-            return View(user);
+            try
+            {
+                var checkUser = cookieService.getCookie(HttpContext, Constants.UserCookieName);
+                var user = jsonService.fromJson(checkUser);
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                return View(null);
+            }
+            
         }
 
 
@@ -30,36 +38,69 @@ namespace DotRestaurant.Controllers {
             {
                 if(userModel == null)
                 {
-                    TempData["RegisterStatus"] = "Kayıt bilgileri boş olamaz";
-                    return RedirectToAction("Index");
+                    return BadRequest(new { message = "Kayıt bilgileri boş olamaz" });
                 }
 
                 var userDatabase = new UserManager(new EFUser());
 
                 if(await userDatabase.findByEmail(userModel.Email) != null)
                 {
-                    TempData["RegisterStatus"] = userModel.Email+" hesabına ait kayıt mevcut";
-                    return RedirectToAction("Index");
+                    return BadRequest(new {message = userModel.Email + "'a kayıtlı bir E-mail hesabı mevcut"});
                 }
 
 
                 var generateUUID = Guid.NewGuid().ToString() ?? "";
                 if(generateUUID == "")
                 {
-                    TempData["RegisterStatus"] = "Bir şeyler yanlış gitti";
-                    return RedirectToAction("Index");
+                    return StatusCode(500, new { message = "Sunucu hatası" });
                 }
 
                 userModel.UUID = generateUUID;
                 userDatabase.TAdd(userModel);
                 setUserCookie(userModel);
-                TempData["RegisterStatus"] = "Kayıt başarılı";
-                return RedirectToAction("Index");
+                return Ok(new { message = "Kayıt başarılı" });
             }
             catch(Exception ex)
             {
-                TempData["RegisterStatus"] = "Sunucu hatası, " + ex.Message;
-                return RedirectToAction("Index");
+                return StatusCode(500, new { message = "Sunucu hatası" });
+            }
+        }
+
+        [Route("~/User/Login")]
+        [HttpPost]
+        public async Task<IActionResult> Login(UserModel? userModel)
+        {
+            try
+            {
+                if(userModel == null) return StatusCode(500, new { message = "Doğrulama yapılırken hata meydana geldi" });
+                var userDatabase = new UserManager(new EFUser());
+                var findUser = await userDatabase.findByEmail(userModel.Email);
+                if(findUser == null) return Unauthorized(new { message = userModel.Email+ "'a ait bir hesap bulunamadı" });
+                var cookieService = new CookieService();
+                var jsonService = new JsonService<UserModel>();
+                cookieService.createCookie(HttpContext, Constants.UserCookieName, jsonService.toJson(findUser));
+                return Ok(new { message = "Doğrulama başarılı" });
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { message = "Sunucu hatası" });
+            }
+        }
+
+
+
+        [Route("~/User/Logout")]
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            try
+            {
+                var cookieService = new CookieService();
+                cookieService.deleteCookie(HttpContext, Constants.UserCookieName);
+                return Ok(new { message = "Başarıyla çıkış yapıldı" });
+            }catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Sunucu hatası" });
             }
         }
 
