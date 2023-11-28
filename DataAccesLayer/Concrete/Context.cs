@@ -14,7 +14,7 @@ namespace DataAccesLayer.Concrete
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("server=TEXAST5\\SQLEXPRESS;database=DotRestaurant;integrated security=true;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("");
         }
 
         public DbSet<BookTableModel> BookTableModels { get; set; }

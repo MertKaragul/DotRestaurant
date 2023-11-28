@@ -26,7 +26,7 @@ namespace DotRestaurant.Controllers {
                 }
                 catch(Exception ex)
                 {
-                    getUserCookie = "";
+                    getUserCookie = null;
                 }
 
                 if(getUserCookie == null || getUserCookie == "") return Unauthorized(new { message = "Giriş yapmadan ürün eklenemez" });
@@ -141,9 +141,19 @@ namespace DotRestaurant.Controllers {
             try
             {
                 var cookieService = new CookieService();
-                var getUserCookie = cookieService.getCookie(HttpContext, Constants.UserCookieName);
+                String? getUserCookie;
+                try
+                {
+                    getUserCookie = cookieService.getCookie(HttpContext, Constants.UserCookieName);
+                }catch(Exception ex)
+                {
+                    getUserCookie=null;
+                }
 
-                if(getUserCookie == null) ViewData["userNotFound"] = "Lütfen hesabınıza giriş yapın";
+                if(getUserCookie == null)
+                {
+                    ViewData["userNotFound"] = "Lütfen hesabınıza giriş yapın";
+                }
                 var jsonService = new JsonService<UserModel>();
                 var parseJsonCookie = jsonService.fromJson(getUserCookie);
                 if(parseJsonCookie == null) ViewData["userNotFound"] = "Lütfen hesabınıza giriş yapın";
@@ -157,6 +167,7 @@ namespace DotRestaurant.Controllers {
                 {
                     userCartList.Add(await foodManager.TgetById(int.Parse(item)));
                 }
+
                 return View(userCartList.Cast<FoodModel>().ToList());
             }
             catch(Exception ex)

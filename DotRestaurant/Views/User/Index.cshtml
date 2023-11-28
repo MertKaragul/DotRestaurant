@@ -13,7 +13,7 @@
     {
         @Html.Raw("Merhaba," + Model.Name);
 
-        <button onClick="logOut()">Çıkış yap</button>
+        <button onClick="logOut()" class="btn1">Çıkış yap</button>
         <script defer>
             function logOut(){
                 $.ajax({
@@ -75,8 +75,10 @@
                     @Html.Label("Şifre")
 
                     @Html.TextBoxFor(x => Model.Password, new { @class = "form-text", @id = "register-password" })
-
-                    <button onclick="register()">Kayıt ol</button>
+                    <br />
+                    <div class="btn-box">
+                       <button onclick="register()" class="btn1">Kayıt ol</button>
+                    </div>
                 </div>
                 
                 <div class="user-login">
@@ -90,8 +92,10 @@
                     <br />
                     @Html.Label("Şifre")
                     @Html.TextBoxFor(x => Model.Password, new { @class = "form-text", @id = "login-password" })
-
-                    <button onclick="logIn()">Giriş yap</button>
+                    <br />
+                    <div class="btn-box">
+                        <button onclick="logIn()" class="btn1">Giriş yap</button>
+                    </div>
                 </div>
             </div>
         </div>   

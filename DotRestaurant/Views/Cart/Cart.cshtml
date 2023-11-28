@@ -10,38 +10,46 @@
 
 <section class="food_section layout_padding">
 <div class="container">
-@if(Model == null || Model.Count == 0)
-{
-    <div style="width:100%; height:50vh;">
-        @Html.Raw("Sepetiniz boş")
+
+@if(ViewData["userNotFound"] != null){
+    <div class="user-sign">
+        @Html.Raw(ViewData["userNotFound"])
     </div>
-}
-else
-{
-    <table style="width:100%;  text-align:center;">
-        <tr>
-            <th>Yemek fotoğrafı</th>
-            <th>Yemek ismi</th>
-            <th>Yemek fiyatı</th>
-        </tr>
-        @foreach(var item in Model)
-        {
-            <tr>
-                <td width="350px"><img width="150px" src="@item.FoodImage" /></td>
-                <td>@item.FoodName</td>
-                <td>$@item.FoodPrice</td>
-                <td><button onclick="deleteFood(@item.FoodID)" class="btn_box">İptal et</button></td>
-            </tr>
-            cartTotal += item.FoodPrice;
+
+    <style>
+        .user-sign{
+            height:50vh;
         }
-    </table>
+    </style>
+}    
 
-    <div style="width:100%; height:5vh;">
-        Sepet toplamı: $@cartTotal
-    </div>
+@if(Model != null){
+            <table style="width:100%;  text-align:center;">
+                <tr>
+                    <th>Yemek fotoğrafı</th>
+                    <th>Yemek ismi</th>
+                    <th>Yemek fiyatı</th>
+                </tr>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td width="350px"><img width="150px" src="@item.FoodImage" /></td>
+                        <td>@item.FoodName</td>
+                        <td>$@item.FoodPrice</td>
+                        <td><button onclick="deleteFood(@item.FoodID)" class="btn_box">İptal et</button></td>
+                    </tr>
+                    cartTotal += item.FoodPrice;
+                }
+            </table>
 
-    
+            <div style="width:100%; height:5vh;">
+                Sepet toplamı: $@cartTotal
+            </div>
+
+
 }
+
+
 </div>
 </section>
 

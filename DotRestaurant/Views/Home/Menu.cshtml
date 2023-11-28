@@ -74,11 +74,11 @@
             type: "POST",
             url: "/addToCart?foodId=" + foodID,
             success: function (data) {
-                alert(data.message)
+                alert(data.responseJSON.message)
+                
             },
             error: function (err) {
-                alert(err.message)
-
+                alert(err.responseJSON.message)
             }
         })
     }
