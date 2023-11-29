@@ -3,7 +3,7 @@ This a basic dotnet restaurant application
 
 The project uses Razor, entity framework and Feane theme
 
-THEME : https://themewagon.github.io/feane/
+THEME : https://themewagon.github.io/feane/ <br/>
 ThemeVagon : https://themewagon.com/?s=Feane&post_type=product
 
 
